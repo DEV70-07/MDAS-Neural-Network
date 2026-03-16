@@ -4,7 +4,7 @@
 #include <random>
 #include <iostream>
 
-Layer::Layer(size_t i, size_t n, bool act):weight_matrix(i + 1, n), minibatch_weights(i + 1, n), last_output(n), last_input(i), neurons(n), inputs(i), use_activation(act){
+Layer::Layer(size_t i, size_t n, bool act):weight_matrix(i + 1, n), delta(n), backwards_error(i + 1), minibatch_weights(i + 1, n), last_output(n), last_input(i), neurons(n), inputs(i), use_activation(act){
     std::random_device dev;
     std::mt19937 rng(dev());
     std::uniform_real_distribution<double> dist(conf::MIN_RANDOM_WEITGHT, conf::MAX_RANDOM_WEIGHT);
@@ -36,8 +36,7 @@ const std::vector<double>& Layer::forward(const std::vector<double>& i){
     return last_output;
 }
 
-std::vector<double> Layer::backpropagate(const std::vector<double> &e){
-    std::vector<double> delta(e.size());
+const std::vector<double> &Layer::backpropagate(const std::vector<double> &e){
 
     //Delta Calc:
 
@@ -48,18 +47,15 @@ std::vector<double> Layer::backpropagate(const std::vector<double> &e){
     //Weight Update:
 
     for (size_t c = 0; c < neurons; c++){
-        for (size_t r = 0; r < inputs; r++){
+        for (size_t r = 0; r < inputs + 1; r++){
             minibatch_weights(r, c) += last_input[r] * delta[c];
         }
     }
 
     //Backwards Error:
-
-    std::vector<double> backwards_error(inputs + 1);
     
     weight_matrix.transpose_buffer_multiply(delta, backwards_error);
 
-    backwards_error.pop_back();
 
     return backwards_error;
 }

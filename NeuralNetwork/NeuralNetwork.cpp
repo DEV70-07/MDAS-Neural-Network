@@ -4,7 +4,7 @@
 #include <iostream>
 
 
-NeuralNetwork::NeuralNetwork(const std::vector<size_t> &layers){
+NeuralNetwork::NeuralNetwork(const std::vector<size_t> &layers): train_counter(0), error(layers.back()){
     size_t total_layers = layers.size() - 1;
 
     for (size_t l = 0; l < total_layers; l++){
@@ -23,10 +23,7 @@ std::vector<double> NeuralNetwork::forward_layers(const std::vector<double> &i){
 
 void NeuralNetwork::train(const std::vector<double> &expected){
     train_counter++;
-    std::vector<double> error;
     const std::vector<double> &last_output = layers.back().get_last_output();
-
-    error.resize(last_output.size());
 
     //double loss = 0;
 

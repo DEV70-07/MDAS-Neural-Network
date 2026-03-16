@@ -6,6 +6,7 @@
 class NeuralNetwork{
     std::vector<Layer> layers;
     size_t train_counter;
+    std::vector<double> error;
     public:
 
     NeuralNetwork(const std::vector<size_t> &l);

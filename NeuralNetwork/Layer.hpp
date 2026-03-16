@@ -6,6 +6,9 @@ class Layer{
     size_t neurons;
     std::vector<double> last_input;
     std::vector<double> last_output;
+    std::vector<double> delta;
+    std::vector<double> backwards_error;
+
     Matrix weight_matrix;
 
     Matrix minibatch_weights;
@@ -20,7 +23,7 @@ class Layer{
 
     friend std::ostream& operator<<(std::ostream& os, const Layer& l);
 
-    std::vector<double> backpropagate(const std::vector<double> &e);
+    const std::vector<double> &backpropagate(const std::vector<double> &e);
 
     void update_weights(size_t batch_size);
 

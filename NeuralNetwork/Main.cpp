@@ -1,5 +1,6 @@
 #include "NeuralNetwork.hpp"
 #include "TrainingData.hpp"
+#include "Constants.hpp"
 #include <random>
 #include <iostream>
 #include <algorithm>
@@ -143,6 +144,9 @@ int main(){
                     std::shuffle(training_data.begin(), training_data.end(), rng);
                 }
 
+                continue;
+            }else if (op == 'l'){
+                std::cin >> conf::LEARNING_RATE;
                 continue;
             }
             else break;
